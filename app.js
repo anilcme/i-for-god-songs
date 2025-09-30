@@ -14,7 +14,17 @@ themeToggle.onclick = () => {
   localStorage.setItem("darkMode", darkMode);
 };
 
-// Home Page
+// --- Helper ---
+function getSongById(songId) {
+  for (const album of albumsData) {
+    for (const song of album.songs) {
+      if (song.id === songId) return song;
+    }
+  }
+  return null;
+}
+
+// --- Home Page ---
 function renderHomePage() {
   pageTitle.textContent = "Albums";
   pageContent.innerHTML = '';
@@ -36,7 +46,7 @@ function renderHomePage() {
   pageContent.appendChild(grid);
 }
 
-// Songs Page
+// --- Songs Page ---
 function renderSongs(album) {
   pageTitle.textContent = album.title;
   pageContent.innerHTML = '';
@@ -48,14 +58,18 @@ function renderSongs(album) {
     const item = document.createElement("div");
     item.className = "song-item";
     item.innerHTML = `<span>${song.title}</span> ➡️`;
-    item.onclick = () => renderLyrics(song);
+    item.onclick = () => {
+      // Update URL without reload
+      history.pushState({ songId: song.id }, '', `?song=${song.id}`);
+      renderLyrics(song);
+    };
     list.appendChild(item);
   });
 
   pageContent.appendChild(list);
 }
 
-// Lyrics Page
+// --- Lyrics Page ---
 function renderLyrics(song) {
   pageTitle.textContent = song.title;
   pageContent.innerHTML = '';
@@ -96,7 +110,7 @@ function renderLyrics(song) {
   segmented.appendChild(btnEnglish);
   segmented.appendChild(btnTelugu);
 
-  // Font controls + YouTube
+  // Font + YouTube
   const fontControls = document.createElement("div");
 
   const decreaseBtn = document.createElement("button");
@@ -141,5 +155,21 @@ function renderLyrics(song) {
   pageContent.appendChild(container);
 }
 
+// --- Load page based on URL ---
+function loadPage() {
+  const params = new URLSearchParams(window.location.search);
+  const songId = params.get("song");
+  if (songId) {
+    const song = getSongById(songId);
+    if (song) renderLyrics(song);
+    else renderHomePage();
+  } else {
+    renderHomePage();
+  }
+}
+
+// Handle browser back/forward buttons
+window.onpopstate = () => loadPage();
+
 // Initial load
-renderHomePage();
+loadPage();
