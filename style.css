@@ -1,0 +1,66 @@
+/* Reset & basic styling */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+body.light { background-color: #f4f4f4; color: #111; }
+body.dark { background-color: #121212; color: #eee; }
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #2196f3;
+  color: #fff;
+}
+header h1 { font-size: 24px; }
+header .top-controls button { margin-left: 8px; padding: 6px 12px; cursor: pointer; }
+
+/* Albums grid */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+.album-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.album-card:hover { transform: translateY(-4px); }
+.album-card img { width: 100%; height: 200px; object-fit: cover; }
+.album-title { padding: 8px; font-weight: bold; text-align: center; }
+
+/* Song list */
+.song-list { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.song-item {
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  transition: background-color 0.2s ease;
+}
+.song-item:hover { background-color: #eee; }
+
+/* Lyrics */
+.lyrics-controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.segmented-button button { padding: 6px 12px; margin-right: 4px; cursor: pointer; }
+.segmented-button button.active { background-color: #2196f3; color: #fff; border-radius: 4px; }
+
+.icon-button { padding: 6px 10px; cursor: pointer; margin-left: 4px; }
+
+.lyrics-text { white-space: pre-wrap; line-height: 1.7; padding: 12px; background-color: #fafafa; border-radius: 8px; }
+
+/* Footer */
+footer { text-align: center; padding: 16px; font-size: 14px; color: #777; }
+
+/* Dark mode overrides */
+body.dark .album-card, body.dark .song-item, body.dark .lyrics-text {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+body.dark header { background-color: #0d47a1; }
+body.dark .segmented-button button.active { background-color: #0d47a1; }
